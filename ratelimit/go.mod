@@ -1,4 +1,4 @@
-module github.com/envoyproxy/go-control-plane/ratelimit
+module github.com/gmatthew/go-control-plane/ratelimit
 
 go 1.22
 
