@@ -486,12 +486,12 @@ func (m *DnsCacheConfig) validate(all bool) error {
 			errors = append(errors, err)
 		} else {
 
-			gte := time.Duration(0*time.Second + 0*time.Nanosecond)
+			gt := time.Duration(0*time.Second + 0*time.Nanosecond)
 
-			if dur < gte {
+			if dur <= gt {
 				err := DnsCacheConfigValidationError{
 					field:  "DnsQueryTimeout",
-					reason: "value must be greater than or equal to 0s",
+					reason: "value must be greater than 0s",
 				}
 				if !all {
 					return err

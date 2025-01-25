@@ -167,6 +167,35 @@ func (m *GradientControllerConfig) validate(all bool) error {
 		}
 	}
 
+	if all {
+		switch v := interface{}(m.GetExperimentMinSampleSize()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GradientControllerConfigValidationError{
+					field:  "ExperimentMinSampleSize",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GradientControllerConfigValidationError{
+					field:  "ExperimentMinSampleSize",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetExperimentMinSampleSize()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GradientControllerConfigValidationError{
+				field:  "ExperimentMinSampleSize",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if len(errors) > 0 {
 		return GradientControllerConfigMultiError(errors)
 	}
@@ -506,6 +535,21 @@ func (m *GradientControllerConfig_ConcurrencyLimitCalculationParams) validate(al
 		if wrapper.GetValue() <= 0 {
 			err := GradientControllerConfig_ConcurrencyLimitCalculationParamsValidationError{
 				field:  "MaxConcurrencyLimit",
+				reason: "value must be greater than 0",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
+	if wrapper := m.GetMaxLatency(); wrapper != nil {
+
+		if wrapper.GetValue() <= 0 {
+			err := GradientControllerConfig_ConcurrencyLimitCalculationParamsValidationError{
+				field:  "MaxLatency",
 				reason: "value must be greater than 0",
 			}
 			if !all {

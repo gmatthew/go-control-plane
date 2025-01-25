@@ -51,6 +51,16 @@ func (m *GradientControllerConfig_ConcurrencyLimitCalculationParams) MarshalToSi
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
 	}
+	if m.MaxLatency != nil {
+		size, err := (*wrapperspb.UInt32Value)(m.MaxLatency).MarshalToSizedBufferVTStrict(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.ConcurrencyUpdateInterval != nil {
 		size, err := (*durationpb.Duration)(m.ConcurrencyUpdateInterval).MarshalToSizedBufferVTStrict(dAtA[:i])
 		if err != nil {
@@ -210,6 +220,16 @@ func (m *GradientControllerConfig) MarshalToSizedBufferVTStrict(dAtA []byte) (in
 	if m.unknownFields != nil {
 		i -= len(m.unknownFields)
 		copy(dAtA[i:], m.unknownFields)
+	}
+	if m.ExperimentMinSampleSize != nil {
+		size, err := (*wrapperspb.UInt32Value)(m.ExperimentMinSampleSize).MarshalToSizedBufferVTStrict(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = protohelpers.EncodeVarint(dAtA, i, uint64(size))
+		i--
+		dAtA[i] = 0x22
 	}
 	if m.MinRttCalcParams != nil {
 		size, err := m.MinRttCalcParams.MarshalToSizedBufferVTStrict(dAtA[:i])
@@ -377,6 +397,10 @@ func (m *GradientControllerConfig_ConcurrencyLimitCalculationParams) SizeVT() (n
 		l = (*durationpb.Duration)(m.ConcurrencyUpdateInterval).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
+	if m.MaxLatency != nil {
+		l = (*wrapperspb.UInt32Value)(m.MaxLatency).SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
 	n += len(m.unknownFields)
 	return n
 }
@@ -445,6 +469,10 @@ func (m *GradientControllerConfig) SizeVT() (n int) {
 	}
 	if m.MinRttCalcParams != nil {
 		l = m.MinRttCalcParams.SizeVT()
+		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
+	}
+	if m.ExperimentMinSampleSize != nil {
+		l = (*wrapperspb.UInt32Value)(m.ExperimentMinSampleSize).SizeVT()
 		n += 1 + l + protohelpers.SizeOfVarint(uint64(l))
 	}
 	n += len(m.unknownFields)
